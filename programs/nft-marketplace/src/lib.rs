@@ -5,6 +5,7 @@ use {
         token::{MintTo, Token},
     },
     mpl_token_metadata::instruction::{create_master_edition_v3, create_metadata_accounts_v2},
+    mpl_token_metadata::state::Creator,
 };
 
 // Our struct to mint NFT
@@ -79,22 +80,25 @@ pub mod nft_marketplace {
 
         // Set Up the associated metadata
         let creators = vec![
-            mpl_token_metadata::state::Creator {
+            Creator {
                 address: collection_key,
                 verified: false,
                 share: 100,
             },
-            mpl_token_metadata::state::Creator {
+            Creator {
                 address: context.accounts.mint_authority.key(),
                 verified: false,
                 share: 0,
             },
         ];
 
-        let token_symbol = std::string::ToString::to_string("ARTIST");
+        let token_symbol: String = std::string::ToString::to_string("BEST_OF_BOTH_WORLD!");
 
         // Invoke the solana program to create the metadata accounts
         // Wrapped nicely in anchor instructions
+        msg!("Creators added");
+
+        msg!("Token is {} and uri is {}", token_symbol, metadata_uri);
 
         invoke(
             &create_metadata_accounts_v2(
@@ -105,8 +109,8 @@ pub mod nft_marketplace {
                 context.accounts.payer.key(),
                 context.accounts.payer.key(),
                 metadata_title,
-                token_symbol,
-                metadata_uri,
+                String::from(token_symbol),
+                String::from(metadata_uri),
                 Some(creators),
                 1,
                 true,

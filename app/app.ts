@@ -12,8 +12,9 @@ import {
 } from '@solana/spl-token';
 
 // Our NFT details
-const nftMetadataUri = '';
-const nftTitle = 'Artist';
+const nftMetadataUri =
+  'https://raw.githubusercontent.com/JohnBashombe/NFT-Marketplace-in-Solana---Anchor/main/nft-example.json';
+const nftTitle = 'Artist NFT';
 
 // Anchor config
 const provider = anchor.AnchorProvider.env();
@@ -94,14 +95,14 @@ const main = async () => {
     .accounts({
       masterEdition: masterEditionAddress,
       metadata: metadataAddress,
-      mintAuthority: wallet.publicKey,
       mint: mintKeypair.publicKey,
+      mintAuthority: wallet.publicKey,
       payer: wallet.publicKey,
-      rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-      systemProgram: anchor.web3.SystemProgram.programId,
-      tokenAccount: nftTokenAccount,
       tokenMetadataProgram: TOKEN_METADATA_PROGRAM_ID,
       tokenProgram: TOKEN_PROGRAM_ID,
+      systemProgram: anchor.web3.SystemProgram.programId,
+      rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+      tokenAccount: nftTokenAccount,
     })
     .rpc();
 };
